@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Enums;
+
 enum Status: String {
     case NEW = 'new';
     case DESIGN = 'design';

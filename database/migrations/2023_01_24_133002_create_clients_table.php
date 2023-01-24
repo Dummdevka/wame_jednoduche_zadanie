@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email')->nullable();
             $table->string('company_name')->nullable();
-            $table->boolean('self-employed')->default(false);
+            $table->boolean('self_employed')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

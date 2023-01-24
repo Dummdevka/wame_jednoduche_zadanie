@@ -4,10 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Enums\Status;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Project extends Model
+class Project extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'deadline',
+        'user_id',
+        'client_id',
+        'status'
+    ];
 
     protected $casts = [
         'deadline' => 'date: d.m.Y'
@@ -36,7 +49,26 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function getStatusAttribute($value) {
+        return Status::$value;
+    }
+
     /**
      * SCOPES
      */
+    public function scopeFinished($query) {
+        return $query->where('status', 'FINISHED');
+    }
+
+    public function scopeDesign($query) {
+        return $query->where('status', 'DESIGN');
+    }
+
+    public function scopeDev($query) {
+        return $query->where('status', 'DESIGN');
+    }
+
+    public function scopeNew($query) {
+        return $query->where('status', 'DESIGN');
+    }
 }

@@ -20,11 +20,11 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'description' => $this->faker->words(10),
+            'description' => $this->faker->sentence(10),
             'status' => $this->faker->randomElement([1,2,3]),
             'client_id' => $this->faker->randomElement(Client::pluck('id')),
-            'user_id' => $this->faker->randomElement(User::pluck('id')),
-            'deadline' => $this->faker->dateTimeBetween('+1 year', now())
+            // 'user_id' => $this->faker->randomElement(User::pluck('id')),
+            'deadline' => $this->faker->dateTimeBetween(now(), '+1 year')
         ];
     }
 }

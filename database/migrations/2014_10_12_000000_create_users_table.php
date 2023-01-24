@@ -19,16 +19,16 @@ return new class extends Migration
             $table->string('name')->nullable();
             // $table->string('lastname')->nullable();
             $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->boolean('is_admin')->default(false);
             // $table->string('postal')->nullable();
             // $table->text('about')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
