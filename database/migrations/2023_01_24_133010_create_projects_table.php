@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            // $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('client_id');
+            $table->string('name');
+            $table->string('description');
+            $table->date('deadline')->nullable();
+            $table->string('status')->default('NEW');
             $table->timestamps();
         });
     }

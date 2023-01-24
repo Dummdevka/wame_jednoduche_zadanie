@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\User;
+use App\Models\Project;
 use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -23,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard');
+        return view('pages.dashboard')->with([
+            'clients' => Client::count(),
+            'users' => User::count(),
+            'projects' => Project::count()
+        ]);
     }
 }
