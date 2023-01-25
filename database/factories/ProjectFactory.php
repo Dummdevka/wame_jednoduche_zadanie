@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
+use App\Http\Enums\Status;
 use App\Models\Client;
 
 /**
@@ -21,7 +21,7 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(10),
-            'status' => $this->faker->randomElement([1,2,3]),
+            'status' => $this->faker->randomElement(Status::cases()),
             'client_id' => $this->faker->randomElement(Client::pluck('id')),
             // 'user_id' => $this->faker->randomElement(User::pluck('id')),
             'deadline' => $this->faker->dateTimeBetween(now(), '+1 year')

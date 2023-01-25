@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Tag;
 
 class TagController extends Controller
 {
@@ -11,7 +12,7 @@ class TagController extends Controller
     {
         $this->middleware('admin')->except(['index', 'show']);   
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +32,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.tags.create');
     }
 
     /**
@@ -42,7 +43,12 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required'
+        ]);
+        $tag = Tag::create($request->all());
+
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -53,7 +59,11 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        return view('pages.tags.show')->with([
+            'tag' => $tag
+        ]);
     }
 
     /**
@@ -64,7 +74,11 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        return view('pages.tags.create')->with([
+            'tag' => $tag
+        ]);
     }
 
     /**
@@ -76,7 +90,14 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $tag = Tag::findOrFail($id);
+        $tag->update($request->all());
+
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -87,6 +108,9 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+
+        $tag->delete();
+        return view('pages.tags.index');
     }
 }

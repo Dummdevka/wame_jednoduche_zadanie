@@ -1,0 +1,1 @@
+<button class="btn"><a href="?status={{strtolower($filter)}}">{{$filter}}</a></button>

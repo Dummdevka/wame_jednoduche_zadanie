@@ -6,6 +6,11 @@
     <div class="container-fluid mt--7 fluid-bg">
         <div class="col-md-12">
             <div class="card p-3 fit-content">
+                <div class="d-flex w-100">
+                    @foreach($statuses as $status)
+                        @include('components.filterbtn', ['filter' => $status])
+                    @endforeach
+                </div>
                 @can('admin')
                     @include('pages.table', [
                         // 'image' => [
@@ -16,14 +21,15 @@
                         'ssr' => false,
                         'color' => '#F7965F',
                         'dataRoute' => 'projects.data',
-                        // 'dataRouteId' => ['user_id' => $user->id],
                         'deleteRoute' => 'projects.destroy',
                         'createRoute' => 'projects.create',
                         'updateRoute' => 'projects.show',
                         'order' => 2,
                         'fields' => [
                             'id' => 'ID',
-                            'title' => 'Title',
+                            'name' => 'Title',
+                            'deadline' => 'Deadline',
+                            'status' => 'Status',
                             '' => ''
                         ]
                     ])
@@ -41,7 +47,9 @@
                         'order' => 2,
                         'fields' => [
                             'id' => 'ID',
-                            'title' => 'Title',
+                            'name' => 'Title',
+                            'deadline' => 'Deadline',
+                            'status' => 'Status',
                             '' => ''
                         ]
                     ])

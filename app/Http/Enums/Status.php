@@ -2,10 +2,10 @@
 
 namespace App\Http\Enums;
 
-enum Status: String {
-    case NEW = 'new';
-    case DESIGN = 'design';
-    case DEVELOPMENT = 'development';
-    case FINISHED = 'finished';
-    case FROZEN = 'frozen';
+enum Status : String{
+    case NEW = "NEW";
+    case DESIGN = "DESIGN";
+    case DEVELOPMENT = "DEVELOPMENT";
+    case FINISHED = "FINISHED";
+    case FROZEN = "FROZEN";
 }

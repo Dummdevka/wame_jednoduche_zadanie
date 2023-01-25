@@ -35,6 +35,8 @@
         $(function(){
             //Turn off the error messages
             $.fn.dataTable.ext.errMode = 'none';
+            let parts = window.location.href.split('?');
+            let query = parts[1] ? parts[1] : '';
 
             var table = $('#sphereTable').DataTable({
                 @if($ssr)

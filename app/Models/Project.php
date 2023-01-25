@@ -49,26 +49,14 @@ class Project extends Model implements HasMedia
         return $this->hasMany(Task::class);
     }
 
-    public function getStatusAttribute($value) {
-        return Status::$value;
-    }
+    // public function getStatusAttribute($value) {
+    //     return constant(Status::$value)->get_status();
+    // }
 
     /**
      * SCOPES
      */
-    public function scopeFinished($query) {
-        return $query->where('status', 'FINISHED');
-    }
-
-    public function scopeDesign($query) {
-        return $query->where('status', 'DESIGN');
-    }
-
-    public function scopeDev($query) {
-        return $query->where('status', 'DESIGN');
-    }
-
-    public function scopeNew($query) {
-        return $query->where('status', 'DESIGN');
+    public function scopeByStatus($query, $status) {
+        return $query->where('status', $status);
     }
 }
