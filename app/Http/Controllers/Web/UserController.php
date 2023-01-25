@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Task;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Http\Resources\UserResource;
 
-class TaskController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.users.index')->with([
+            'title' => 'Users'
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.users.create');
     }
 
     /**
@@ -41,21 +45,25 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('pages.users.show')->with([
+            'user' => $user
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +72,10 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,11 +83,14 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task  $task
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back();
     }
 }

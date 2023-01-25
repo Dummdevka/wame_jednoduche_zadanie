@@ -13,9 +13,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class User extends Authenticatable implements ShouldQueue
+class User extends Authenticatable 
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, Queueable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +42,12 @@ class User extends Authenticatable implements ShouldQueue
         'remember_token',
     ];
 
+    public static function boot() {
+        parent::boot();
+        static::created(function(User $user) {
+            $user->assignRole('user');
+        });
+    }
     /**
      * The attributes that should be cast.
      *
@@ -60,12 +66,10 @@ class User extends Authenticatable implements ShouldQueue
         return $this->hasMany(Taask::class);
     }
 
-    /**
-     * Always encrypt the password when it is updated.
-     *
-     * @param $value
-    * @return string
-    */
+    public function getRoleAttribute($value) {
+        return $this->roles->first() ? $this->roles->first()->name : null;
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);

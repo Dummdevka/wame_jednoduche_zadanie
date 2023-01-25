@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Client;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ClientController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.tasks.index')->with([
+            'title' => 'Tasks'
+        ]);
     }
 
     /**
@@ -41,10 +44,10 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(Task $task)
     {
         //
     }
@@ -52,10 +55,10 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit(Task $task)
     {
         //
     }
@@ -64,10 +67,10 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, Task $task)
     {
         //
     }
@@ -75,10 +78,10 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Client  $client
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(Task $task)
     {
         //
     }

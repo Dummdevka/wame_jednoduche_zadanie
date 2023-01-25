@@ -23,8 +23,13 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
-use App\Http\Controllers\ChangePassword;            
-            
+use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\Web\ClientController;
+use App\Http\Controllers\Web\ProjectController;
+use App\Http\Controllers\Web\TaskController;
+use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\TagController;
+
 
 Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
 	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
@@ -40,4 +45,22 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+	//Users
+
+    // Route::get('users/data', [UserController::class, 'data'])->name('users_data');
+	Route::resource('users', UserController::class);
+	// Route::get('')
+
+	//Clients
+	Route::resource('clients', ClientController::class);
+
+	//Projects
+	Route::resource('projects', ProjectController::class);
+
+	//Tasks
+	Route::resource('tasks', TaskController::class);
+
+	//Tags
+	Route::resource('tags', TagController::class);
 });

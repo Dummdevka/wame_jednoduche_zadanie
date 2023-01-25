@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -14,7 +15,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.projects.index')->with([
+            'title' => 'Projects'
+        ]);
     }
 
     /**
