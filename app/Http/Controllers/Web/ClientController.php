@@ -12,7 +12,7 @@ class ClientController extends Controller
     {
         $this->middleware('admin')->except(['index', 'show']);   
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +32,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.clients.create');
     }
 
     /**
@@ -43,7 +43,15 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required|unique:clients',
+            'company_name' => 'required',
+        ]);
+
+        $client = Client::create($request->all());
+
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -52,9 +60,13 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show($id)
     {
-        //
+        $client = Client::findOrFail($id);
+
+        return view('pages.clients.show')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -63,9 +75,13 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit($id)
     {
-        //
+        $client = Client::findOrFail($id);
+
+        return view('pages.clients.create')->with([
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -75,9 +91,24 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'company_name' => 'required'
+        ]);
+
+        //Check phone
+        $clients = Client::where('phone', $request->phone)->where('id', '!=', $id)->get();
+        if(!$clients->isEmpty()) {
+            return redirect()->back()->withErrors(['phone' => 'This phone already exists']);
+        }
+
+        $client = Client::findOrFail($id);
+        $client->update($request->all());
+
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -86,8 +117,11 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        $client->delete();
+
+        return redirect()->back();
     }
 }

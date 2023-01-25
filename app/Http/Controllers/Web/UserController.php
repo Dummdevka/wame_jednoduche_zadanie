@@ -111,7 +111,6 @@ class UserController extends Controller
         //Check email
         $users = User::where('email', $request->email)->where('id', '!=', $id)->get();
         if(!$users->isEmpty()) {
-            dd($users);
             return redirect()->back()->withErrors(['email' => 'This email already exists']);
         }
 
