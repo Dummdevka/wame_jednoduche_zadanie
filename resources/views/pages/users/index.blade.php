@@ -6,7 +6,7 @@
     <div class="container-fluid mt--7 fluid-bg">
         <div class="col-md-12">
             <div class="card p-3 fit-content">
-            {{-- <a class="block mb-1 ml-3" href="{{ route('users') }}"><button class="btn btn-warning"><i class="fa fa-angle-left mr-2"></i>{{ __('Назад') }}</button></a> --}}
+            @can('admin')
                 @include('pages.table', [
                     // 'image' => [
                     //     'target' => 1,
@@ -29,7 +29,28 @@
                         'role' => 'Role',
                         '' => ''
                     ]
-            ])
+                ])
+            @endcan
+            @can('user')
+                @include('pages.table', [
+                    // 'image' => [
+                    //     'target' => 1,
+                    //     'url' => 'avatar.small'
+                    // ],
+                    'controls' => true,
+                    'ssr' => false,
+                    'color' => '#F7965F',
+                    'dataRoute' => 'users.data',
+                    'order' => 2,
+                    'fields' => [
+                        'id' => 'ID',
+                        'name' => 'Name',
+                        'email' => 'Email',
+                        'role' => 'Role',
+                        '' => ''
+                    ]
+                ])
+            @endcan
             </div>
         </div>
 

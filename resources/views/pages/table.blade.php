@@ -95,7 +95,7 @@
                     style:    'multi',
                     selector: 'td:first-child'
                 },
-                order: [[ 1, 'desc' ]],
+                order: [[ 0, 'desc' ]],
                 columns: [
                     //null,
                     // {

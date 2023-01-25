@@ -66,8 +66,8 @@ class User extends Authenticatable
         return $this->hasMany(Taask::class);
     }
 
-    public function getRoleAttribute($value) {
-        return $this->roles->first() ? $this->roles->first()->name : null;
+        public function getRoleAttribute($value) {
+            return $this->getRoleNames() ? $this->getRoleNames()->first() : null;
     }
 
     public function setPasswordAttribute($value)

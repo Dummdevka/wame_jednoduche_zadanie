@@ -10,7 +10,7 @@ use App\Models\User;
 class UserApiController extends Controller
 {
     public function index(Request $request) {
-        $users = User::orderBy('created_at', 'desc')->get();
+        $users = User::orderBy('id', 'desc')->get();
 
         return response()->json([
             'success' => true,
