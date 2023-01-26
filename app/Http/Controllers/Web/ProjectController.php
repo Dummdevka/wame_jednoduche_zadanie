@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Enums\Status;
 use App\Models\Client;
 use App\Models\User;
+use App\Http\Traits\ImageTrait;
 
 class ProjectController extends Controller
 {
+    use ImageTrait;
+
     public function __construct()
     {
         $this->middleware('admin')->except(['index', 'show']);   
@@ -62,6 +65,12 @@ class ProjectController extends Controller
         ]);
         $project = Project::create($request->all());
         $project->users()->attach($request->user_ids);
+        if($request->file('image')) {
+            $project->clearMediaCollection();
+            $image_url = $this->upload_image($project, $request->file('image'), 'projects');
+            $project->addMedia($image_url)->toMediaCollection('images', 'projects');
+            $this->clear_cache();
+        }
 
         return redirect()->route('projects.index');
     }
@@ -97,7 +106,6 @@ class ProjectController extends Controller
 
         return view('pages.projects.create')->with([
             'project' => $project,
-            // 'projects' => Project::all(),
             'statuses' => array_column(Status::cases(), 'name'),
             'clients' => Client::all(),
             'users' => User::all(),
