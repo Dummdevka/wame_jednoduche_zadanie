@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Http\Resources\TaskResource;
+use App\Models\Tag;
 
 class TaskApiController extends Controller
 {
     public function index(Request $request) {
-        $tasks = Task::orderBy('created_at', 'desc')->get();
+        $tasks = null;
+        if($request->status) {
+            $tasks = Tag::where('title', $request->status)->first()->tasks(); 
+        } 
+        $tasks = $tasks ?: Task::query();
+        
+        $tasks = $tasks->orderBy('created_at', 'desc')->get();
+
 
         return response()->json([
             'success' => true,

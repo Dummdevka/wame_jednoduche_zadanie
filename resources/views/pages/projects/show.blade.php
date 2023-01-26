@@ -27,9 +27,9 @@
                         <select data-placeholder="Begin typing a name to filter..." 
                         name="user_ids[]" id="user_ids" 
                         class="chosen-select form-control" multiple 
-                        disabled
-                            @foreach($users as $user)
-                                <option value="{{$user->id}}" @if(in_array($user->id, $selected_users)) selected @endif>{{$user->name}}</option>
+                        disabled>
+                            @foreach($selected_users as $user)
+                                <option value="{{$user->id}}" selected>{{$user->name}}</option>
                             @endforeach
                         </select>
                     </div>

@@ -15,6 +15,14 @@
                         <input type="checkbox" name="self_employe" id="self_employe" value="{{$client->self_employed}}" disabled>
                     </div>
                     
+                    @if(!$projects->isEmpty())
+                    <div class="w-25 d-flex flex-column">
+                    <span class="bold">Projects:</span>
+                        @foreach($projects as $project)
+                            <a href="{{route('projects.show', $project->id)}}" class="m-3 border border-success rounded text-center">{{$project->name}}</a>
+                        @endforeach
+                    </div>
+                    @endif
                     @can('admin')
                         <button type="button"
                         class="btn btn-success mt-2"><a href="{{route('clients.edit', $client->id)}}">{{'Update'}}</a></button>

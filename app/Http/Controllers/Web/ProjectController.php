@@ -83,10 +83,10 @@ class ProjectController extends Controller
 
         return view('pages.projects.show')->with([
             'project' => $project,
-            'statuses' => array_column(Status::cases(), 'name'),
-            'clients' => Client::all(),
-            'users' => User::all(),
-            'selected_users' => $project->users->pluck('id')->toArray()
+            'statuses' => [$project->status],
+            'clients' => [$project->client],
+            // 'users' => User::all(),
+            'selected_users' => $project->users
         ]);
     }
 

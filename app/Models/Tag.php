@@ -13,6 +13,6 @@ class Tag extends Model
     protected $fillable = ['title'];
 
     public function tasks() {
-        return $this->belongsToMany(Task::class);
+        return $this->belongsToMany(Task::class, 'task_tag');
     }
 }

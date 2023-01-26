@@ -66,6 +66,7 @@ class ClientController extends Controller
 
         return view('pages.clients.show')->with([
             'client' => $client,
+            'projects' => $client->projects
         ]);
     }
 
@@ -102,7 +103,7 @@ class ClientController extends Controller
         //Check phone
         $clients = Client::where('phone', $request->phone)->where('id', '!=', $id)->get();
         if(!$clients->isEmpty()) {
-            return redirect()->back()->withErrors(['phone' => 'This phone already exists']);
+            return redirect()->back()->withErors(['phone' => 'This phone already exists']);
         }
 
         $client = Client::findOrFail($id);

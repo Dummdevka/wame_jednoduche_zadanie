@@ -9,6 +9,9 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\User;
+use App\Notifications\TaskNotification;
+use Illuminate\Support\Facades\Notification;
+use Spatie\Permission\Models\Role;
 
 class TaskController extends Controller
 {
@@ -35,7 +38,6 @@ class TaskController extends Controller
         return view('pages.tasks.create')->with([
             'projects' => Project::all(),
             'tags' => Tag::all(),
-            'clients' => Client::all(),
             'users' => User::all()
         ]);
     }
@@ -49,12 +51,13 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'project_id' => 'required|id:tasks',
-            'user_id' => 'required|id:users',
+            'project_id' => 'required|exists:projects,id',
+            'user_id' => 'required|exists:users,id',
             'title' => 'required'
         ]);
-        $task = Tag::create($request->all());
+        $task = Task::create($request->all());
 
+        $task->tags()->attach($request->tag_ids);
         return redirect()->route('tasks.index');
     }
 
@@ -69,7 +72,11 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         return view('pages.tasks.show')->with([
-            'tag' => $task
+            'task' => $task,
+            'users' => User::all(),
+            'projects' => Project::all(),
+            'tags' => Tag::all(),
+            'selected_tags' => $task->tags
         ]);
     }
 
@@ -84,9 +91,10 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         return view('pages.tasks.create')->with([
-            'tag' => $task,
+            'task' => $task,
             'projects' => Project::all(),
             'tags' => Tag::all(),
+            'selected_tags' => $task->tags->pluck('id')->toArray(),
             'clients' => Client::all(),
             'users' => User::all()
         ]);
@@ -102,8 +110,8 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'project_id' => 'required|id:tasks',
-            'user_id' => 'required|id:users',
+            'project_id' => 'required|exists:projects,id',
+            'user_id' => 'required|exists:users,id',
             'title' => 'required'
         ]);
 
@@ -113,6 +121,12 @@ class TaskController extends Controller
         // }
         $task = Task::findOrFail($id);
         $task->update($request->all());
+
+        $task->tags()->sync($request->tag_ids);
+
+        //Notify users
+        // $admins = Role::where('name', 'admin')->users;
+        Notification::send(User::all(), new TaskNotification($task));
 
         return redirect()->route('tasks.index');
     }

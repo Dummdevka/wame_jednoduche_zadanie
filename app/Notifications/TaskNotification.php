@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Mail\TaskChanged;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -31,7 +32,13 @@ class TaskNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return $notifiable->role == 'admin' ? ['mail'] : ['database'];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new TaskChanged($this->task))
+            ->to($notifiable->email);
     }
 
     /**
