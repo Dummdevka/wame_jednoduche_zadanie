@@ -6,6 +6,8 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Enums\Status;
+use App\Models\Client;
+use App\Models\User;
 
 class ProjectController extends Controller
 {
@@ -35,7 +37,12 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.projects.create')->with([
+            'projects' => Project::all(),
+            'statuses' => array_column(Status::cases(), 'name'),
+            'clients' => Client::all(),
+            'users' => User::all(),
+        ]);
     }
 
     /**
@@ -46,7 +53,17 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'client_id' => 'required',
+            'user_ids' => 'required',
+            'name' => 'required',
+            'deadline' => 'required'
+        ]);
+        $project = Project::create($request->all());
+        $project->users()->attach($request->user_ids);
+
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -55,9 +72,17 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        return view('pages.projects.show')->with([
+            'project' => $project,
+            'statuses' => array_column(Status::cases(), 'name'),
+            'clients' => Client::all(),
+            'users' => User::all(),
+            'selected_users' => $project->users->pluck('id')->toArray()
+        ]);
     }
 
     /**
@@ -66,9 +91,18 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        return view('pages.projects.create')->with([
+            'project' => $project,
+            // 'projects' => Project::all(),
+            'statuses' => array_column(Status::cases(), 'name'),
+            'clients' => Client::all(),
+            'users' => User::all(),
+            'selected_users' => $project->users->pluck('id')->toArray()
+        ]);
     }
 
     /**
@@ -78,9 +112,18 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'client_id' => 'required|id:clients',
+            'user_ids' => 'required',
+            'title' => 'required'
+        ]);
+
+        $project = Project::findOrFail($id);
+        $project->update($request->all());
+
+        return redirect()->route('pages.projects.index');
     }
 
     /**
@@ -89,8 +132,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+        $project->delete();
+        return view('pages.projects.index');
     }
 }

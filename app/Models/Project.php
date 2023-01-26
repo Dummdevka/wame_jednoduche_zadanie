@@ -8,6 +8,7 @@ use App\Http\Enums\Status;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Carbon\Carbon;
 
 class Project extends Model implements HasMedia
 {
@@ -49,9 +50,9 @@ class Project extends Model implements HasMedia
         return $this->hasMany(Task::class);
     }
 
-    // public function getStatusAttribute($value) {
-    //     return constant(Status::$value)->get_status();
-    // }
+    public function setDeadlineAttribute($value) {
+        $this->attributes['deadline'] = Carbon::parse($value)->format('Y-m-d');
+    }
 
     /**
      * SCOPES

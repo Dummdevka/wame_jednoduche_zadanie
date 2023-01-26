@@ -6,6 +6,11 @@
     <div class="container-fluid mt--7 fluid-bg">
         <div class="col-md-12">
             <div class="card p-3 fit-content">
+                <div class="d-flex w-100">
+                    @foreach($tags as $tag)
+                        @include('components.filterbtn', ['filter' => $tag])
+                    @endforeach
+                </div>
             @can('admin')
                 @include('pages.table', [
                     // 'image' => [

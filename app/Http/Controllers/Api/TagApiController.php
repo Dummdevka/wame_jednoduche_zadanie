@@ -10,11 +10,17 @@ use Illuminate\Http\Request;
 class TagApiController extends Controller
 {
     public function index(Request $request) {
-        $tags = Tag::orderBy('created_at', 'desc')->get();
+        $tags = Tag::query();
+
+        if($request->status) {
+            if(in_array(ucfirst($request->status), Tag::pluck('title')->toArray())) {
+                $tags = Tag::where('title', $request->status)->first()->tasks();
+            }
+        }
 
         return response()->json([
             'success' => true,
-            'data' => TagResource::collection($tags)
+            'data' => TagResource::collection($tags->orderBy('created_at', 'desc')->get())
         ]);
     }
 }
