@@ -56,7 +56,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'client_id' => 'required',
             'user_ids' => 'required',
@@ -66,10 +65,7 @@ class ProjectController extends Controller
         $project = Project::create($request->all());
         $project->users()->attach($request->user_ids);
         if($request->file('image')) {
-            $project->clearMediaCollection();
-            $image_url = $this->upload_image($project, $request->file('image'), 'projects');
-            $project->addMedia($image_url)->toMediaCollection('images', 'projects');
-            $this->clear_cache();
+            $this->upload_image($project, $request->file('image'), 'projects');
         }
 
         return redirect()->route('projects.index');
@@ -122,16 +118,22 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'client_id' => 'required|id:clients',
-            'user_ids' => 'required',
-            'title' => 'required'
-        ]);
-
         $project = Project::findOrFail($id);
-        $project->update($request->all());
 
-        return redirect()->route('pages.projects.index');
+        $request->validate([
+            'client_id' => 'required',
+            'user_ids' => 'required',
+            'name' => 'required',
+            'deadline' => 'required'
+        ]);
+        $project->update($request->all());
+        $project->users()->sync($request->user_ids);
+        if($request->file('image')) {
+            $this->upload_image($project, $request->file('image'), 'projects');
+            // dd($project->image);
+        }
+
+        return redirect()->route('projects.index');
     }
 
     /**

@@ -4,8 +4,14 @@
     <div class="container-fluid mt--7 fluid-bg">
         <div class="col-md-12">
             <div class="card p-3 fit-content">
+                @if($project->image)
+                <div class="w-100 ms-3 me-3">
+                    <img src="{{$project->image}}" alt="" height="200" class="mt-2 mb-2">
+                </div>
+                @endif
                 <form action="{{route('projects.store')}}" method="post" class="w-100 d-flex flex-column align-items-center">
                     @csrf
+                    
                     @include('components.input', ['name' => 'name', 'value' => $project->name, 'show' => true])
                     @include('components.input', ['name' => 'description', 'value' => $project->description, 'show' => true])
                     @include('components.select', ['name' => 'client_id', 'options' => $clients, 'selected' => $project->client_id , 'option_val' => 'id', 'label' => 'name', 'show' => true])

@@ -13,10 +13,10 @@
                 </div>
                 @can('admin')
                     @include('pages.table', [
-                        // 'image' => [
-                        //     'target' => 1,
-                        //     'url' => 'avatar.small'
-                        // ],
+                        'image' => [
+                            'target' => 1,
+                            'url' => 'image'
+                        ],
                         'controls' => true,
                         'ssr' => false,
                         'color' => '#F7965F',
@@ -27,6 +27,7 @@
                         'order' => 2,
                         'fields' => [
                             'id' => 'ID',
+                            'image' => 'Image',
                             'name' => 'Title',
                             'deadline' => 'Deadline',
                             'status' => 'Status',
@@ -36,10 +37,10 @@
                 @endcan
                 @can('user')
                     @include('pages.table', [
-                        // 'image' => [
-                        //     'target' => 1,
-                        //     'url' => 'avatar.small'
-                        // ],
+                        'image' => [
+                            'target' => 1,
+                            'url' => 'avatar.small'
+                        ],
                         'controls' => true,
                         'ssr' => false,
                         'color' => '#F7965F',
@@ -47,6 +48,7 @@
                         'order' => 2,
                         'fields' => [
                             'id' => 'ID',
+                            'image' => 'Image',
                             'name' => 'Title',
                             'deadline' => 'Deadline',
                             'status' => 'Status',

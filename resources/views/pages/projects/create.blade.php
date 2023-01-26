@@ -5,6 +5,11 @@ $old_ids = old('user_ids') ?: [] ?>
     @include('layouts.navbars.auth.topnav', ['title' => $update ? 'Update project' : 'Create project'])
     <div class="container-fluid mt--7 fluid-bg">
         <div class="col-md-12">
+            @if($update && $project->image)
+            <div class="w-100 ms-3 me-3">
+                <img src="{{$project->image}}" alt="" height="200" class="mt-2 mb-2">
+            </div>
+            @endif
             <div class="card p-3 fit-content">
                 <form action="{{$update ? route('projects.update', $project->id) : route('projects.store')}}" method="post" class="w-100 d-flex flex-column align-items-center" enctype="multipart/form-data">
                     @csrf
@@ -12,6 +17,7 @@ $old_ids = old('user_ids') ?: [] ?>
                     <div class="w-25">
                         <label class="form-control-label">Image: </label>
                         <input type="file" name="image" id="image" class="form-control">
+                        
                     </div>
                     @include('components.input', ['name' => 'name', 'value' => $update ? $project->name : old('name')])
                     @include('components.input', ['name' => 'description', 'value' => $update ? $project->description : old('description')])
@@ -21,7 +27,7 @@ $old_ids = old('user_ids') ?: [] ?>
                         <label for="dedline" class="form-control-label @error('deadline') text-danger @enderror">Deadline:</label>
                         
                         <input type="date" name="deadline" id="deadline" class="form-control"
-                        value="@if($update) {{$project->deadline}} @else {{old('deadline')}}@endif">
+                        value="@if($update){{$project->deadline}}@else{{old('deadline')}}@endif">
                     </div>
                     <div class="w-25">
                         <label for="user_ids" class="form-control-label @error('user_ids') text_danger @enderror">Assigned users: </label>

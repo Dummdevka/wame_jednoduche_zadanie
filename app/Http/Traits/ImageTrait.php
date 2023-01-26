@@ -10,12 +10,20 @@ trait ImageTrait {
 
         $result_path = $save_dir . '/' . $filename;
         $file->move(storage_path('app/public/temps/') , $filename);
-
-        return $result_path;
+        $this->clear_cache($model);
+        
+        $model->addMedia($result_path)->toMediaCollection('images', $entity);
+        
+    // return $result_path;
     }
 
-    public function clear_cache() {
-        rmdir(storage_path('app/public/temps'));
+    public function clear_cache($model) {
+        $media_items = $model->getMedia('images');
+        // dd($media_items);
+        foreach($media_items as $item) {
+            $item->forceDelete();
+        }
+        // rmdir(storage_path('app/public/temps'));
         return true;
     }
 }

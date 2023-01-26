@@ -54,6 +54,15 @@ class Project extends Model implements HasMedia
         $this->attributes['deadline'] = Carbon::parse($value)->format('Y-m-d');
     }
 
+    public function getImageAttribute() {
+        $file = $this->getMedia('images')->first();
+        return $file ? $file->getUrl() : null;
+    }
+
+    public function getDeadlineAttribute($value) {
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+
     /**
      * SCOPES
      */
