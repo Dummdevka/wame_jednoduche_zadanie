@@ -74,6 +74,7 @@ class UserController extends Controller
 
         return view('pages.users.show')->with([
             'user' => $user,
+            'tasks' => $user->tasks
         ]);
     }
 

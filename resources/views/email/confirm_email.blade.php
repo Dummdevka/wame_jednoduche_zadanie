@@ -30,14 +30,12 @@
         vertical-align: middle;
         white-space: nowrap;
     }
-
-    
 </style>
-<div class="container d-flex flex-column align-content-left">
-    <h2>Hello,</h2>
-    <p>Task <b>{{$task->title}}</b> had been changed.</p>
+<div>
+    <h1>Hello,</h1>
+    <p>Thank you for redistration as <b>WAWE test CRM</b></p>
     <button class="see_btn">
-        <a href="{{route('tasks.show', $task->id)}}">See changes</a>
+        <a href="{{$link}}">Confirm</a>
     </button>
-    @include('components.logo') 
+    @include('components.logo')
 </div>

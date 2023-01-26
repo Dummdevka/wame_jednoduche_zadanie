@@ -63,7 +63,7 @@ class User extends Authenticatable
     }
 
     public function tasks() {
-        return $this->hasMany(Taask::class);
+        return $this->hasMany(Task::class);
     }
 
         public function getRoleAttribute($value) {
@@ -75,4 +75,10 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    /**
+     * SCOPES
+     */
+    public function scopeVerified($query) {
+        return $query->whereNotNull('email_verified_at');
+    }
 }

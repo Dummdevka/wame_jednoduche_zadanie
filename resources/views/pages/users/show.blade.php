@@ -17,11 +17,21 @@
                         <button type="button"
                         class="btn btn-success mt-2"><a href="{{route('users.edit', $user->id)}}">{{'Update'}}</a></button>
                     @endcan
+
+                    @if(!$tasks->isEmpty())
+                        <div class="w-25 d-flex flex-column">
+                            <span class="bold">Tasks:</span>
+                            @foreach($tasks as $task)
+                                <a href="{{route('tasks.show', $task->id)}}" class="m-3 border border-success rounded text-center">{{$task->title}}</a>
+                            @endforeach
+                        </div>
+                    @endif
                 </form>
                 
             </div>
         </div>
 
+       
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

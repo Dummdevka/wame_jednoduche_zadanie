@@ -30,18 +30,35 @@ use App\Http\Controllers\Web\TaskController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\TagController;
 
+Route::get('/', function() {
+	return redirect('/dashboard');
+});
 
-Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
-	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
-	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+	
+	
+Route::group(['middleware' => 'guest'], function() {
+	Route::get('/register', [RegisterController::class, 'create'])->name('register');
+	Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
+	Route::get('/login', [LoginController::class, 'show'])->name('login');
+	Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+	Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
+	Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');
+	Route::get('/change-password', [ChangePassword::class, 'show'])->name('change-password');
+	Route::post('/change-password', [ChangePassword::class, 'update'])->name('change.perform');
+
+	//Confirm email
+	Route::get('/registration/success', function() {
+		$referer = request()->headers->get('referer');
+		if($referer == route('register')) {
+			return view('pages.registration_success');
+		} else return redirect()->back();
+	});
+	Route::get('/confirm/email', [RegisterController::class, 'confirm_email'])->name('confirm.email');
+});
+
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+
 	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
@@ -64,3 +81,4 @@ Route::group(['middleware' => 'auth'], function () {
 	//Tags
 	Route::resource('tags', TagController::class);
 });
+
