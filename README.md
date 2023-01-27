@@ -16,8 +16,10 @@
 
 # Emails (on test smtp server)
 
+*Email to admin users on task change*
 <img width="1056" alt="Screenshot 2023-01-26 at 16 21 19" src="https://user-images.githubusercontent.com/87282400/215183640-413c4d1e-9c9e-4d27-9503-f06294fe6783.png">
 
+*Email registration confirmation*
 <img width="1099" alt="Screenshot 2023-01-26 at 18 27 34" src="https://user-images.githubusercontent.com/87282400/215183714-e5e106b7-e951-4059-9d34-ca9eb271636d.png">
 
 
