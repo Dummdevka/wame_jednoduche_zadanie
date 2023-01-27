@@ -2,8 +2,14 @@
 
 # Screenshots
 
+*Edit project*
 <img width="1404" alt="Screenshot 2023-01-27 at 20 46 33" src="https://user-images.githubusercontent.com/87282400/215183781-333faf15-f836-4b89-95b2-d78acd33ef0b.png">
 
+*See projects*
+<img width="1408" alt="Screenshot 2023-01-27 at 20 45 58" src="https://user-images.githubusercontent.com/87282400/215184106-1a9d35ab-173c-4399-a0e0-afd0b5635e40.png">
+
+
+*See tasks*
 <img width="1419" alt="Screenshot 2023-01-27 at 20 49 08" src="https://user-images.githubusercontent.com/87282400/215183906-bf8ff4de-50dd-4f2c-8224-84c778af93b3.png">
 
 
