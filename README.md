@@ -15,6 +15,9 @@
 *Edit my profile*
 <img width="1397" alt="Screenshot 2023-01-27 at 20 51 56" src="https://user-images.githubusercontent.com/87282400/215184506-c2c7f5d5-73ab-47a7-a773-2cb2c58a0c0a.png">
 
+*Notifications*
+<img width="370" alt="Screenshot 2023-01-27 at 21 16 01" src="https://user-images.githubusercontent.com/87282400/215188960-06680b49-03ca-420c-83ed-ba5a3771fdfb.png">
+
 
 
 # Emails (on test smtp server)
