@@ -32,7 +32,7 @@ class TaskNotification extends Notification
      */
     public function via($notifiable)
     {
-        return $notifiable->role == 'admin' ? ['mail'] : ['database'];
+        return $notifiable->role == 'admin' ? ['mail', 'database'] : ['database'];
     }
 
     public function toMail($notifiable)

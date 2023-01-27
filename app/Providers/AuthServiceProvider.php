@@ -37,8 +37,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role == 'user';
         });
 
-        Gate::define('can-edit-task', function(User $user, Task $task) {
-            return $task->users->contains($user);
+        Gate::define('can-edit-task', function(User $user) {
+            $pieces = explode('/', request()->url());
+            $ids = preg_grep('/^[0-9]+$/', $pieces);
+            $id = reset($ids);
+            // dd($id);
+            // dd($id);
+            $task = $id ? Task::find((int)$id) : null;
+            return $task->user ? $task->user->id == $user->id : false;
         });
     }
 }

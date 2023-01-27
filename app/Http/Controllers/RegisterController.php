@@ -39,6 +39,8 @@ class RegisterController extends Controller
 
         if(Hash::check($user->email, $request->token) && !$user->email_verified_at) {
             $user->email_verified_at = Carbon::now();
+            $user->save();
+            
             auth()->login($user);
             return redirect('/dashboard');
         }

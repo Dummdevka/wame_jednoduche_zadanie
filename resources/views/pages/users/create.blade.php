@@ -10,7 +10,12 @@
                     @if($update) @method("PUT") @endif
                     @include('components.input', ['name' => 'name', 'value' => $update ? $user->name : old('name')])
                     @include('components.input', ['name' => 'email', 'value' => $update ? $user->email : old('email')])
-                    @if(!$update)@include('components.input', ['name' => 'password', 'value' => $update ? $user->password : old('password')])@endif
+
+                    {{-- Password --}}
+                    @if(!$update)@include('components.input', ['name' => 'password', 'value' => $update ? $user->password : old('password')])
+                    @else @include('components.input', ['name' => 'password', 'value' => '']) 
+                    @endif
+
                     @include('components.input', ['name' => 'city', 'value' => $update ? $user->city : old('city')])
                     @include('components.input', ['name' => 'country', 'value' => $update ? $user->country : old('country')])
                     <div class="w-25">

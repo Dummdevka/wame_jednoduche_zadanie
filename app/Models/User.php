@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,7 @@ class User extends Authenticatable
         'address',
         'city',
         'country',
+        'email_verified_at'
     ];
 
     /**
@@ -66,8 +68,21 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
-        public function getRoleAttribute($value) {
-            return $this->getRoleNames() ? $this->getRoleNames()->first() : null;
+    public function getRoleAttribute($value) {
+        return $this->getRoleNames() ? $this->getRoleNames()->first() : null;
+    }
+
+    public function getTaskNotificationsAttribute() {
+        $result = [];
+        $notifications = $this->notifications()->where('created_at', '>', Carbon::now()->subWeek()->format('Y-m-d H:i:s'))->get();
+        foreach($notifications as $notification) {
+            $task = [
+                'created_at' => $notification->created_at
+            ];
+            $task['task'] = Task::find($notification->data['task_id']);
+            $result[] = $task;
+        }
+        return $result;
     }
 
     public function setPasswordAttribute($value)

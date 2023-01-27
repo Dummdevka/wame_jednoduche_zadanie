@@ -11,24 +11,18 @@ $old_ids = old('user_ids') ?: [] ?>
                     @if($update) @method("PUT") @endif
                     @include('components.input', ['name' => 'title', 'value' => $update ? $task->title : old('title')])
                     @include('components.input', ['name' => 'description', 'value' => $update ? $task->description : old('description')])
-                    @include('components.select', ['name' => 'project_id', 'options' => $projects, 'selected' => $update ? $task->project_id : old('project_id'), 'option_val' => 'id', 'label' => 'name'])
-                    @include('components.select', ['name' => 'user_id', 'options' => $users, 'selected' => $update ? $task->user->id : old('user_id'), 'option_val' => 'id', 'label' => 'name'])
-                    {{-- <div class="w-25">
-                        <label for="dedline" class="form-control-label @error('deadline') text-danger @enderror">Deadline:</label>
-                        
-                        <input type="date" name="deadline" id="deadline" class="form-control"
-                        value="@if($update){{$task->deadline}}@else{{old('deadline')}}@endif">
-                    </div> --}}
-                    {{-- <div class="w-25">
-                        <label for="user_ids" class="form-control-label @error('user_ids') text_danger @enderror">Assigned users: </label>
-                        <select data-placeholder="Begin typing a name to filter..." 
-                        name="user_ids[]" id="user_ids" 
-                        class="chosen-select form-control" multiple 
-                            @foreach($users as $user)
-                                <option value="{{$user->id}}" @if(($update && in_array($user->id, $selected_users)) || in_array($user->id, $old_ids)) selected @endif>{{$user->name}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
+                    @can('admin')@include('components.select', ['name' => 'project_id', 'options' => $projects, 'selected' => $update ? $task->project_id : old('project_id'), 'option_val' => 'id', 'label' => 'name'])@endcan
+                    @can('can-edit-task')
+                        @include('components.select', ['name' => 'project_id', 'options' => $projects, 'selected' => $update ? $task->project_id : old('project_id'), 'option_val' => 'id', 'label' => 'name', 'show' => true])
+                        <input type="hidden" name="project_id" value="{{$task->project_id}}">
+                    @endcan
+
+                    @can('admin')@include('components.select', ['name' => 'user_id', 'options' => $users, 'selected' => $update ? $task->user->id : old('user_id'), 'option_val' => 'id', 'label' => 'name'])@endcan
+
+                    @can('can-edit-task')
+                        @include('components.select', ['name' => 'user_id', 'options' => $users, 'selected' => $update ? $task->user->id : old('user_id'), 'option_val' => 'id', 'label' => 'name', 'show' => true])
+                        <input type="hidden" name="user_id" value="{{$task->user_id}}">
+                    @endcan
                     <div class="w-25">
                         <label for="tag_ids" class="form-control-label @error('tag_ids') text_danger @enderror">Tags: </label>
                         <select data-placeholder="Begin typing a name to filter..." 

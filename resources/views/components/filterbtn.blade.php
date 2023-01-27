@@ -1,1 +1,1 @@
-<button class="btn"><a href="?status={{strtolower($filter)}}">{{$filter}}</a></button>
+<button class="btn"><a href="?status={{strtolower($filter)}}">{{isset($label) ? $label : $filter}}</a></button>

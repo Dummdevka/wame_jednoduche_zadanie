@@ -10,6 +10,7 @@
                     @foreach($tags as $tag)
                         @include('components.filterbtn', ['filter' => $tag])
                     @endforeach
+                    @include('components.filterbtn', ['filter' => 'My&id=' . auth()->user()->id, 'label' => 'My tasks']) 
                 </div>
             @can('admin')
                 @include('pages.table', [

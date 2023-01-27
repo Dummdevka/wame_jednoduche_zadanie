@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Tag;
 use App\Models\User;
 use App\Notifications\TaskNotification;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Permission\Models\Role;
 
@@ -109,18 +110,19 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'project_id' => 'required|exists:projects,id',
             'user_id' => 'required|exists:users,id',
             'title' => 'required'
         ]);
 
-        // $tags = Tag::where('title', $request->title)->where('id', '!=', $id)->get();
-        // if(!$tags->isEmpty()) {
-        //     return redirect()->back()->withErrors(['title' => 'This title already exists']);
-        // }
         $task = Task::findOrFail($id);
-        $task->update($request->all());
+        if(Gate::allows('admin')) {
+            $task->update($request->all());
+        } else {
+            $task->update($request->except(['user_id', 'project_id']));
+        }
 
         $task->tags()->sync($request->tag_ids);
 

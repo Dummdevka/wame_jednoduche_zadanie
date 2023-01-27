@@ -19,7 +19,7 @@
                     </div> --}}
                     <div class="w-25">
                         <label for="tag_ids" class="form-control-label @error('user_ids') text_danger @enderror">Tags: </label>
-                        <select data-placeholder="Begin typing a name to filter..." 
+                        <select data-placeholder="No tags yet" 
                         name="tag_ids[]" id="tag_ids" 
                         class="chosen-select form-control" multiple 
                         disabled>
@@ -29,8 +29,7 @@
                         </select>
                     </div>
 
-                    
-                    @can('admin')
+                    @canany(['admin', 'can-edit-task'])
                         <button type="button"
                         class="btn btn-success mt-2"><a href="{{route('tasks.edit', $task->id)}}">{{'Update'}}</a></button>
                     @endcan

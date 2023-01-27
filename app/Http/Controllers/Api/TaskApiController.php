@@ -7,13 +7,20 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Http\Resources\TaskResource;
 use App\Models\Tag;
+use App\Models\User;
 
 class TaskApiController extends Controller
 {
     public function index(Request $request) {
         $tasks = null;
         if($request->status) {
-            $tasks = Tag::where('title', $request->status)->first()->tasks(); 
+            if($request->status == 'my') {
+                $user = User::find($request->id);
+                // dd($user);
+                $tasks = $user->tasks();
+            } else {
+                $tasks = Tag::where('title', $request->status)->first()->tasks(); 
+            }
         } 
         $tasks = $tasks ?: Task::query();
         
