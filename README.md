@@ -12,6 +12,9 @@
 *See tasks*
 <img width="1419" alt="Screenshot 2023-01-27 at 20 49 08" src="https://user-images.githubusercontent.com/87282400/215183906-bf8ff4de-50dd-4f2c-8224-84c778af93b3.png">
 
+*Edit my profile*
+<img width="1397" alt="Screenshot 2023-01-27 at 20 51 56" src="https://user-images.githubusercontent.com/87282400/215184506-c2c7f5d5-73ab-47a7-a773-2cb2c58a0c0a.png">
+
 
 
 # Emails (on test smtp server)
